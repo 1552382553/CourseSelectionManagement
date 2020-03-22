@@ -1,0 +1,67 @@
+{% extends 'student_base.html' %}
+{% load static %}
+{% block title %}主页{% endblock %}
+{% block a1 %}active{% endblock %}
+{% block b1 %}active{% endblock %}
+
+{% block content %}
+<main class="col-md-10 ml-auto">
+    <br><h4><strong>个人信息:</strong></h4>
+    <div class="row">
+        <div class="col-4 col-md-2">
+            <h5 class="text-center"><strong>学号</strong></h5>
+            <p class="text-center">{{ student_number }}</p>
+        </div>
+        <div class="col-4 col-md-2">
+            <h5 class="text-center"><strong>姓名</strong></h5>
+            <p class="text-center">{{ student_name }}</p>
+        </div>
+        <div class="col-4 col-md-2">
+            <h5 class="text-center"><strong>性别</strong></h5>
+            <p class="text-center">{{ student_gender }}</p>
+        </div>
+        <div class="col-4 col-md-2">
+            <h5 class="text-center"><strong>院系</strong></h5>
+            <p class="text-center">{{ student_department_name }}</p>
+        </div>
+        <div class="col-4 col-md-2">
+            <h5 class="text-center"><strong>籍贯</strong></h5>
+            <p class="text-center">{{ student_native_place }}</p>
+        </div>
+        <div class="col-4 col-md-2">
+            <h5 class="text-center"><strong>手机</strong></h5>
+            <p class="text-center">{{ student_phone_number }}</p>
+        </div>
+
+
+   </div>
+
+    <br><br><h4><strong>已选课程:</strong></h4>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" style="white-space: nowrap">
+            <thead>
+            <tr>
+                <th>课程号</th>
+                <th>课程名称</th>
+                <th>教师号</th>
+                <th>教师名称</th>
+                <th>学分</th>
+                <th>上课时间</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in student_course_selected %}
+                <tr>
+                  <td>{{ item.course_number }}</td>
+                  <td>{{ item.course_name }}</td>
+                  <td>{{ item.teacher_number }}</td>
+                  <td>{{ item.teacher_name }}</td>
+                  <td>{{ item.course_score }}</td>
+                  <td>{{ item.course_times }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

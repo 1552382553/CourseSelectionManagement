@@ -1,0 +1,65 @@
+{% extends 'student_base.html' %}
+{% load static %}
+{% block title %}查询成绩{% endblock %}
+{% block a5 %}active{% endblock %}
+{% block b5 %}active{% endblock %}
+
+{% block content %}
+<main class="col-md-10 ml-auto">
+    <br><h4><strong>我的成绩:</strong></h4>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" style="white-space: nowrap">
+            <thead>
+            <tr>
+                <th>课程号</th>
+                <th>课程名称</th>
+                <th>教师号</th>
+                <th>教师名称</th>
+                <th>学分</th>
+                <th>平时成绩</th>
+                <th>考试成绩</th>
+                <th>总评成绩</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in student_course_selected %}
+                <tr>
+                    <td>{{ item.course_number }}</td>
+                    <td>{{ item.course_name }}</td>
+                    <td>{{ item.teacher_number }}</td>
+                    <td>{{ item.teacher_name }}</td>
+                    <td>{{ item.course_score }}</td>
+                    <td>
+                        {% if item.usual_results is not None %}
+                            {{item.usual_results}}
+                        {% else %}
+                            未发布
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.exam_results is not None %}
+                            {{item.exam_results}}
+                        {% else %}
+                            未发布
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.total_results is not None %}
+                            {{item.total_results}}
+                        {% else %}
+                            未发布
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+
+
+
+
+{% endblock %}

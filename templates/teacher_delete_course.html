@@ -1,0 +1,105 @@
+{% extends 'teacher_base.html' %}
+{% load static %}
+{% block title %}取消开课{% endblock %}
+{% block a3 %}active{% endblock %}
+{% block b3 %}active{% endblock %}
+
+{% block content %}
+<main class="col-md-10 ml-auto">
+
+    <br><h4><strong>取消开课:</strong></h4>
+    <form action="/deletecourse/" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" name="course_number_1" class="form-control" placeholder="课程号" required>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary float-right" data-target="#dialog">提交</button>
+        <button type="reset"  class="btn btn-default float-right">重置</button>
+    </form>
+
+    <br><br><h4><strong>已开课程:</strong></h4>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" style="white-space: nowrap">
+            <thead>
+            <tr>
+                <th>课程号</th>
+                <th>课程名称</th>
+                <th>学分</th>
+                <th>上课时间</th>
+                <th>选课人数</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in teacher_course_opened %}
+                <tr>
+                  <td>{{ item.course_number }}</td>
+                  <td>{{ item.course_name }}</td>
+                  <td>{{ item.course_score }}</td>
+                  <td>{{ item.course_times }}</td>
+                  <td>{{ item.course_selected_number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="mess" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">开课结果</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm" style="white-space: nowrap">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>课程号</th>
+                                <th>课程名称</th>
+                                <th>开课结果</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in message %}
+                                <tr>
+                                  <td>{{ item.idx }}</td>
+                                  <td>{{ item.course_number }}</td>
+                                  <td>{{ item.course_name }}</td>
+                                  <td>{{ item.ret }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+<script>
+    let mess="{{ message }}";
+    if(mess)
+        $('#mess').modal('show');
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'student_base.html' %}
+{% load static %}
+{% block title %}一键退学{% endblock %}
+{% block a7 %}active{% endblock %}
+{% block b7 %}active{% endblock %}
+
+{% block content %}
+<main class="col-md-10 ml-auto">
+    <div class="container col-md-6">
+        <form action="/dropschool/" method="post">
+            {% csrf_token %}
+            <br><h2 class="text-center"><strong>退学操作不可逆！</strong></h2>
+            <h2 class="text-center"><strong>请谨慎使用！</strong></h2>
+            <div class="form-group">
+                <label for="id_password">请输入密码确认身份：</label>
+                <input type="password" name='old1_password' class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password">请再次输入密码：</label>
+                <input type="password" name='old2_password' class="form-control" placeholder="Password" required>
+            </div>
+            <button type="reset"  class="btn btn-default float-left">重置</button>
+            <button type="submit" class="btn btn-primary float-right">提交</button>
+        </form>
+    </div>
+</main>
+
+<div class="modal fade" id="mess" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">提示消息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{message}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+<script>
+    let mess="{{ message }}";
+    if(mess)
+        $('#mess').modal('show');
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends 'teacher_base.html' %}
+{% load static %}
+{% block title %}选课情况{% endblock %}
+{% block a4 %}active{% endblock %}
+{% block b4 %}active{% endblock %}
+
+{% block content %}
+<main class="col-md-10 ml-auto">
+    <br>
+    <nav class="navbar sticky-top navbar-expand-md navbar-light" style="background-color: #ffffff;">
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#cou"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="cou">
+            <ul class="navbar-nav nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link text-center active" data-toggle="tab" href="#gl">概览</a>
+                </li>
+                {% for item in teacher_course_opened %}
+                    <li class="nav-item">
+                        <a class="nav-link text-center" data-toggle="tab" href="#{{ item.idx }}">{{ item.course_name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+
+<br>
+<div class="container-full">
+    <div class="tab-content">
+        <div class="tab-pane active" id="gl">
+            <div class="container col-md-10">
+            <div class="table-responsive">
+                <h3 class="text-center"> 选课情况概览 </h3>
+                <table class="table table-striped table-sm" style="white-space: nowrap">
+                    <thead>
+                    <tr>
+                        <th>课程号</th>
+                        <th>课程名称</th>
+                        <th>选课人数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in teacher_course_opened %}
+                        <tr>
+                          <td>{{ item.course_number }}</td>
+                          <td>{{ item.course_name }}</td>
+                          <td>{{ item.course_selected_number }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+
+        {% for item in teacher_course_opened %}
+        <div class="tab-pane" id="{{ item.idx }}" >
+            <div class="container col-md-10">
+                <h3 class="text-center">{{ item.course_name }}</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm" style="white-space: nowrap">
+                        <thead>
+                        <tr>
+                            <th>课程号</th>
+                            <th>课程名称</th>
+                            <th>选课人数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td>{{ item.course_number }}</td>
+                              <td>{{ item.course_name }}</td>
+                              <td>{{ item.course_selected_number }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br><br>
+                <h3 class="text-center">选课学生</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm" style="white-space: nowrap">
+                        <thead>
+                        <tr>
+                            <th>学生姓名</th>
+                            <th>学生学号</th>
+                            <th>平时成绩</th>
+                            <th>考试成绩</th>
+                            <th>总评成绩</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in item.course_selected_student %}
+                            <tr>
+                                <td>{{ student.student_number }}</td>
+                                <td>{{ student.student_name }}</td>
+                                <td>
+                                    {% if student.usual_results is not None %}
+                                        {{student.usual_results}}
+                                    {% else %}
+                                        未发布
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if student.exam_results is not None %}
+                                        {{student.exam_results}}
+                                    {% else %}
+                                        未发布
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if student.total_results is not None %}
+                                        {{student.total_results}}
+                                    {% else %}
+                                        未发布
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{#    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">#}
+{#        {% for item in teacher_course_opened %}#}
+{#            <button type="button" class="btn btn-secondary" data-toggle="tab" href='con2'>{{ item.course_number }} ({{ item.course_name }})</button>#}
+{#        {% endfor %}#}
+{#    </div>#}
+
+
+
+
+{#    {% for item in teacher_course_opened %}#}
+{#    <br><h4><strong>已开课程:</strong></h4>#}
+{#    <div class="table-responsive">#}
+{#        <table class="table table-striped table-sm" style="white-space: nowrap">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <th>课程号</th>#}
+{#                <th>课程名称</th>#}
+{#                <th>学分</th>#}
+{#                <th>上课时间</th>#}
+{#                <th>选课人数</th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#                <tr>#}
+{#                  <td>{{ item.course_number }}</td>#}
+{#                  <td>{{ item.course_name }}</td>#}
+{#                  <td>{{ item.course_score }}</td>#}
+{#                  <td>{{ item.course_times }}</td>#}
+{#                  <td>{{ item.course_selected_number }}</td>#}
+{#                </tr>#}
+{#            </tbody>#}
+{#        </table>#}
+{#    </div>#}
+{#    {% endfor %}#}
+
+
+
+
+</main>
+
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+<script>
+    let mess="{{ message }}";
+    if(mess)
+        $('#mess').modal('show');
+</script>
+
+
+{% endblock %}
